@@ -4,7 +4,7 @@ import com.example.demo.core.domain.model.Product;
 
 public interface IProductService
 {
-    void createProduct (Product product);
+    Product createProduct (Product product);
 
     void updateProduct (Product product);
 

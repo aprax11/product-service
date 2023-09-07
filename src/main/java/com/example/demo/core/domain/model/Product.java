@@ -17,6 +17,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    //TODO: das müsste dann UUID sein, oder man lässt die Datenbak das managen über sequence
     private Integer id;
 
     private String name;

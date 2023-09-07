@@ -3,27 +3,36 @@ package com.example.demo.core.domain.service.impl;
 import com.example.demo.core.domain.model.Product;
 import com.example.demo.core.domain.service.interfaces.IProductRepository;
 import com.example.demo.core.domain.service.interfaces.IProductService;
+import com.example.demo.exception.ProductDoesNotExistsException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService implements IProductService {
 
     private final IProductRepository productRepository;
-
+    @Autowired
     ProductService(IProductRepository productRepository){
 
         this.productRepository = productRepository;
     }
 
-    public void createProduct (Product product) {
+    public Product createProduct (Product product) {
 
         productRepository.save(product);
+        return product;
     }
 
     @Override
     public void updateProduct(Product product) {
 
-        productRepository.save(product);
+        boolean productExists = productRepository.existsById(product.getId());
+
+        if(productExists){
+            productRepository.save(product);
+        }else{
+            throw new ProductDoesNotExistsException();
+        }
     }
 
     @Override
@@ -35,7 +44,7 @@ public class ProductService implements IProductService {
     @Override
     public Product getProduct(int id) {
 
-        return null;
+        return productRepository.getReferenceById(id);
     }
 
     @Override
