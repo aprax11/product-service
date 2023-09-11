@@ -1,6 +1,7 @@
 package com.example.demo.core.domain.service.impl;
 
 import com.example.demo.core.domain.model.Product;
+import com.example.demo.core.domain.model.Statics;
 import com.example.demo.core.domain.service.interfaces.IProductRepository;
 import com.example.demo.core.domain.service.interfaces.IProductService;
 import com.example.demo.exception.ProductDoesNotExistException;
@@ -41,7 +42,7 @@ public class ProductService implements IProductService {
 
         if(existsProduct(id)){
             productRepository.deleteById(id);
-            return "deleting product";
+            return Statics.DELETE_RESPONSE;
         }else{
             throw new ProductDoesNotExistException();
         }
