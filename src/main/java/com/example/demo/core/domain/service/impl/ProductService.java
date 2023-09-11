@@ -3,7 +3,7 @@ package com.example.demo.core.domain.service.impl;
 import com.example.demo.core.domain.model.Product;
 import com.example.demo.core.domain.service.interfaces.IProductRepository;
 import com.example.demo.core.domain.service.interfaces.IProductService;
-import com.example.demo.exception.ProductDoesNotExistsException;
+import com.example.demo.exception.ProductDoesNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class ProductService implements IProductService {
         if(productExists){
             productRepository.save(product);
         }else{
-            throw new ProductDoesNotExistsException();
+            throw new ProductDoesNotExistException();
         }
     }
 

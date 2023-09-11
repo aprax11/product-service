@@ -2,27 +2,29 @@ package com.example.demo.port.listener;
 
 import com.example.demo.core.domain.model.Product;
 import com.example.demo.core.domain.service.interfaces.IProductService;
+import lombok.Data;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import lombok.extern.slf4j.Slf4j;
 import com.google.gson.Gson;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.ErrorResponseException;
 
 import java.nio.charset.StandardCharsets;
 
+
 @Slf4j
+@Data
+@Controller
 public class Listener {
 
 
     private final IProductService productService;
 
-    public Listener(IProductService productService) {
-        this.productService = productService;
-    }
 
-    @RabbitListener(queues = "meine_queues")
-    public String receiveMessage(Message message){
-
+    @RabbitListener(queues = {"product-service.rpc.queue"})
+    public String handleRequest(Message message){
+        log.info("receiveMessage triggered");
         final MessageType messageType;
         try {
             messageType = MessageType.valueOf(message.getMessageProperties().getType());
@@ -36,6 +38,10 @@ public class Listener {
                     log.info("create call processed");
                     return createProduct(product);
                 }
+                case GET_ALL_PRODUCTS: {
+                    log.info("get all products request processed");
+                    return getAllProducts();
+                }
                 default: {
                     return errorResponse();
                 }
@@ -43,6 +49,10 @@ public class Listener {
         } catch (ErrorResponseException e) {
             return errorResponse();
         }
+    }
+
+    private String getAllProducts() {
+        return new Gson().toJson(productService.getAllProducts());
     }
 
     private String createProduct(Product product) {

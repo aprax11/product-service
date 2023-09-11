@@ -13,7 +13,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
     networks:
-      - internal
+      - app-network
 
   rabbitmq-container:
     image: rabbitmq:3.11-management
@@ -22,7 +22,7 @@ services:
       - "15672:15672"
       - "5672:5672"
     networks:
-      - internal
+      - app-network
 
   app:
     container_name: demo
@@ -40,15 +40,17 @@ services:
     links:
       - database
     networks:
-      - internal
+      - app-network
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/postgres
       - spring_rabbitmq_host=rabbitmq-container
       - spring_rabbitmq_port=5672
 
 networks:
-  internal:
-    name: internal
+  app-network:
+    external:
+      name: app-network
+    driver: bridge
 
 
 
