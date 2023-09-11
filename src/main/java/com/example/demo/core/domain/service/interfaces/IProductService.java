@@ -2,15 +2,17 @@ package com.example.demo.core.domain.service.interfaces;
 
 import com.example.demo.core.domain.model.Product;
 
+import java.util.UUID;
+
 public interface IProductService
 {
     Product createProduct (Product product);
 
-    void updateProduct (Product product);
+    Product updateProduct (Product product);
 
-    void deleteProduct (Product product);
+    String deleteProduct (UUID id);
 
-    Product getProduct(int id);
+    Product getProduct(UUID id);
 
     Iterable<Product> getAllProducts();
 }

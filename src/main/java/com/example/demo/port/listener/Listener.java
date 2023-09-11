@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.ErrorResponseException;
 
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 
 @Slf4j
@@ -18,10 +19,7 @@ import java.nio.charset.StandardCharsets;
 @Controller
 public class Listener {
 
-
     private final IProductService productService;
-
-
     @RabbitListener(queues = {"product-service.rpc.queue"})
     public String handleRequest(Message message){
         log.info("receiveMessage triggered");
@@ -34,13 +32,28 @@ public class Listener {
         try{
             switch (messageType){
                 case CREATE_PRODUCT: {
-                    var product = createProductFromMessage(message);
+                    Product product = createProductFromMessage(message);
                     log.info("create call processed");
                     return createProduct(product);
                 }
-                case GET_ALL_PRODUCTS: {
+                case UPDATE_PRODUCT: {
+                    Product product = createProductFromMessage(message);
+                    log.info("update product request processed");
+                    return updateProduct(product);
+                }
+                case DELETE_PRODUCT: {
+                    UUID id = obtainUserIdFromMessage(message);
+                    log.info("delete product request processed");
+                    return deleteProduct(id);
+                }
+                case OBTAIN_PRODUCT: {
+                    UUID id = obtainUserIdFromMessage(message);
+                    log.info("obtain product request processed");
+                    return obtainProduct(id);
+                }
+                case OBTAIN_ALL_PRODUCTS: {
                     log.info("get all products request processed");
-                    return getAllProducts();
+                    return obtainAllProducts();
                 }
                 default: {
                     return errorResponse();
@@ -50,23 +63,35 @@ public class Listener {
             return errorResponse();
         }
     }
-
-    private String getAllProducts() {
-        return new Gson().toJson(productService.getAllProducts());
+    private String obtainProduct(UUID id) {
+        Product product = productService.getProduct(id);
+        return new Gson().toJson(product);
     }
-
+    private String deleteProduct(UUID id) {
+        String answer = productService.deleteProduct(id);
+        return answer;
+    }
+    private String updateProduct(Product product) {
+        Product updatedProduct = productService.updateProduct(product);
+        return new Gson().toJson(updatedProduct);
+    }
+    private String obtainAllProducts() {
+        Iterable<Product> products = productService.getAllProducts();
+        return new Gson().toJson(products);
+    }
     private String createProduct(Product product) {
-        productService.createProduct(product);
-        return new Gson().toJson(productService.createProduct(product));
+        Product createdProduct = productService.createProduct(product);
+        return new Gson().toJson(createdProduct);
     }
-
-    private String getBodyOfMessage(Message message) {
+    private String obtainBodyOfMessage(Message message) {
         return new String(message.getBody(), StandardCharsets.UTF_8);
     }
-    private Product createProductFromMessage(Message message) {
-        return new Gson().fromJson(getBodyOfMessage(message), Product.class);
+    private UUID obtainUserIdFromMessage(Message message) {
+        return UUID.fromString(obtainBodyOfMessage(message));
     }
-
+    private Product createProductFromMessage(Message message) {
+        return new Gson().fromJson(obtainBodyOfMessage(message), Product.class);
+    }
     private String errorResponse() {
         log.error("respond with message 'errorResponse'");
         return "errorResponse";

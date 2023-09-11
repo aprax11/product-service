@@ -7,6 +7,8 @@ import com.example.demo.exception.ProductDoesNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class ProductService implements IProductService {
 
@@ -24,25 +26,33 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void updateProduct(Product product) {
+    public Product updateProduct(Product product) {
 
-        boolean productExists = productRepository.existsById(product.getId());
-
-        if(productExists){
+        if(existsProduct(product.getId())){
             productRepository.save(product);
+            return product;
         }else{
             throw new ProductDoesNotExistException();
         }
     }
 
     @Override
-    public void deleteProduct(Product product) {
+    public String deleteProduct(UUID id) {
 
-        productRepository.delete(product);
+        if(existsProduct(id)){
+            productRepository.deleteById(id);
+            return "deleting product";
+        }else{
+            throw new ProductDoesNotExistException();
+        }
+    }
+
+    private boolean existsProduct(UUID id) {
+        return productRepository.existsById(id);
     }
 
     @Override
-    public Product getProduct(int id) {
+    public Product getProduct(UUID id) {
 
         return productRepository.getReferenceById(id);
     }
@@ -52,5 +62,4 @@ public class ProductService implements IProductService {
 
         return productRepository.findAll();
     }
-
 }

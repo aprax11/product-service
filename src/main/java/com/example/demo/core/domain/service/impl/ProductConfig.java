@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+import java.util.UUID;
 
 @Configuration
 public class ProductConfig {
@@ -14,7 +15,7 @@ public class ProductConfig {
     CommandLineRunner commandLineRunner(IProductRepository repository){
         return args -> {
             Product product1 = new Product(
-                    1,
+                    UUID.randomUUID(),
                     "Ring",
                     "Das ist ein Ring.",
                     "22",
@@ -23,7 +24,7 @@ public class ProductConfig {
                     "link"
             );
             Product product2 = new Product(
-                    2,
+                    UUID.randomUUID(),
                     "Lette",
                     "Das ist eine Kette.",
                     "220",

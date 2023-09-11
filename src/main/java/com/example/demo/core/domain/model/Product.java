@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,10 +17,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "product")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "id")
-    //TODO: das müsste dann UUID sein, oder man lässt die Datenbak das managen über sequence
-    private Integer id;
+    private UUID id;
 
     private String name;
 
