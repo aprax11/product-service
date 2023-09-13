@@ -1,7 +1,7 @@
 package com.example.demo.core.domain.service.impl;
 
 import com.example.demo.core.domain.model.Product;
-import com.example.demo.core.domain.model.Statics;
+import com.example.demo.core.domain.service.Statics;
 import com.example.demo.core.domain.service.interfaces.IProductRepository;
 import com.example.demo.core.domain.service.interfaces.IProductService;
 import com.example.demo.exception.ProductDoesNotExistException;

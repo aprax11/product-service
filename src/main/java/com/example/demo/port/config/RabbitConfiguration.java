@@ -82,7 +82,6 @@ public class RabbitConfiguration {
     }
 
     private static class MyFatalExceptionStrategy extends ConditionalRejectingErrorHandler.DefaultExceptionStrategy {
-
         @Override
         public boolean isFatal(Throwable t) {
             log.error("rabbitmq Exception caught - message ignored");

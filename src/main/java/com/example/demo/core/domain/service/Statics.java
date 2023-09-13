@@ -1,4 +1,4 @@
-package com.example.demo.core.domain.model;
+package com.example.demo.core.domain.service;
 
 public class Statics {
 
