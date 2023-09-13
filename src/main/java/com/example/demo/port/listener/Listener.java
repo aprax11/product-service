@@ -42,18 +42,18 @@ public class Listener {
                     return updateProduct(product);
                 }
                 case DELETE_PRODUCT: {
-                    UUID id = obtainUserIdFromMessage(message);
+                    UUID id = extractIdFromMessage(message);
                     log.info("delete product request processed");
                     return deleteProduct(id);
                 }
-                case OBTAIN_PRODUCT: {
-                    UUID id = obtainUserIdFromMessage(message);
-                    log.info("obtain product request processed");
-                    return obtainProduct(id);
+                case GET_PRODUCT: {
+                    UUID id = extractIdFromMessage(message);
+                    log.info("get product request processed");
+                    return getProduct(id);
                 }
-                case OBTAIN_ALL_PRODUCTS: {
+                case GET_ALL_PRODUCTS: {
                     log.info("get all products request processed");
-                    return obtainAllProducts();
+                    return getAllProducts();
                 }
                 default: {
                     return errorResponse();
@@ -63,7 +63,7 @@ public class Listener {
             return errorResponse();
         }
     }
-    private String obtainProduct(UUID id) {
+    private String getProduct(UUID id) {
         Product product = productService.getProduct(id);
         return new Gson().toJson(product);
     }
@@ -75,7 +75,7 @@ public class Listener {
         Product updatedProduct = productService.updateProduct(product);
         return new Gson().toJson(updatedProduct);
     }
-    private String obtainAllProducts() {
+    private String getAllProducts() {
         Iterable<Product> products = productService.getAllProducts();
         return new Gson().toJson(products);
     }
@@ -86,7 +86,7 @@ public class Listener {
     private String obtainBodyOfMessage(Message message) {
         return new String(message.getBody(), StandardCharsets.UTF_8);
     }
-    private UUID obtainUserIdFromMessage(Message message) {
+    private UUID extractIdFromMessage(Message message) {
         return UUID.fromString(obtainBodyOfMessage(message));
     }
     private Product createProductFromMessage(Message message) {

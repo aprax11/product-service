@@ -36,16 +36,16 @@ public class ListenerTests {
         when(message.getMessageProperties()).thenReturn(messageProperties);
     }
     @Test
-    void handleRequestObtainAllProductsTest() {
-        when(messageProperties.getType()).thenReturn(OBTAIN_ALL_PRODUCTS.name());
+    void handleRequestGetAllProductsTest() {
+        when(messageProperties.getType()).thenReturn(GET_ALL_PRODUCTS.name());
 
         listener.handleRequest(message);
 
         verify(productService).getAllProducts();
     }
     @Test
-    void handleRequestObtainProductTest() {
-        when(messageProperties.getType()).thenReturn(OBTAIN_PRODUCT.name());
+    void handleRequestGetProductTest() {
+        when(messageProperties.getType()).thenReturn(GET_PRODUCT.name());
         when(message.getBody()).thenReturn(UUID.randomUUID().toString().getBytes());
 
         listener.handleRequest(message);
