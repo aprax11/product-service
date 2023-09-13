@@ -4,6 +4,6 @@ public enum MessageType {
     CREATE_PRODUCT,
     UPDATE_PRODUCT,
     DELETE_PRODUCT,
-    OBTAIN_PRODUCT,
-    OBTAIN_ALL_PRODUCTS
+    Get_PRODUCT,
+    Get_ALL_PRODUCTS
 }

@@ -37,7 +37,7 @@ public class ListenerTests {
     }
     @Test
     void handleRequestObtainAllProductsTest() {
-        when(messageProperties.getType()).thenReturn(OBTAIN_ALL_PRODUCTS.name());
+        when(messageProperties.getType()).thenReturn(Get_ALL_PRODUCTS.name());
 
         listener.handleRequest(message);
 
@@ -45,7 +45,7 @@ public class ListenerTests {
     }
     @Test
     void handleRequestObtainProductTest() {
-        when(messageProperties.getType()).thenReturn(OBTAIN_PRODUCT.name());
+        when(messageProperties.getType()).thenReturn(Get_PRODUCT.name());
         when(message.getBody()).thenReturn(UUID.randomUUID().toString().getBytes());
 
         listener.handleRequest(message);
