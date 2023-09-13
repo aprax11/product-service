@@ -46,12 +46,12 @@ public class Listener {
                     log.info("delete product request processed");
                     return deleteProduct(id);
                 }
-                case Get_PRODUCT: {
+                case GET_PRODUCT: {
                     UUID id = extractIdFromMessage(message);
                     log.info("get product request processed");
                     return getProduct(id);
                 }
-                case Get_ALL_PRODUCTS: {
+                case GET_ALL_PRODUCTS: {
                     log.info("get all products request processed");
                     return getAllProducts();
                 }
