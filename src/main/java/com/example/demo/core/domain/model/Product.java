@@ -6,19 +6,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.Type;
 
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
 @Table(name = "product")
 public class Product {
     @Id
-    @GeneratedValue
-    @Column(name = "id")
+    @Column(unique = true, nullable = false)
     private UUID id;
 
     private String name;
@@ -32,7 +32,5 @@ public class Product {
     private int count;
 
     private String imageLink;
-
-
 
 }

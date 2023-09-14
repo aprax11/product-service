@@ -5,12 +5,14 @@ import com.example.demo.core.domain.service.Statics;
 import com.example.demo.core.domain.service.interfaces.IProductRepository;
 import com.example.demo.core.domain.service.interfaces.IProductService;
 import com.example.demo.exception.ProductDoesNotExistException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class ProductService implements IProductService {
 
     private final IProductRepository productRepository;
@@ -55,7 +57,13 @@ public class ProductService implements IProductService {
     @Override
     public Product getProduct(UUID id) {
 
-        return productRepository.getReferenceById(id);
+        log.info("existsProduct: {}", existsProduct(id));
+        if(existsProduct(id)){
+
+            return productRepository.findProductById(id).get();
+        }else{
+            throw new ProductDoesNotExistException();
+        }
     }
 
     @Override
