@@ -30,7 +30,6 @@ public class ProductServiceTests {
             "Das ist ein Ring.",
             "22",
             "details",
-            1,
             "link"
     );
     private final String DELETE_RESPONSE = "deleting product";
