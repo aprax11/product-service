@@ -24,6 +24,7 @@ public class ProductService implements IProductService {
 
     public Product createProduct (Product product) {
 
+        product.setId(UUID.randomUUID());
         productRepository.save(product);
         return product;
     }

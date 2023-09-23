@@ -20,7 +20,7 @@ public class ProductConfig {
                     "Das ist ein Ring.",
                     "22",
                     "details",
-                    "../../assets/products/1.png"
+                    "1"
             );
             Product product2 = new Product(
                     UUID.randomUUID(),
@@ -28,7 +28,7 @@ public class ProductConfig {
                     "Das ist eine Kette.",
                     "220",
                     "details",
-                    "../../assets/products/2.png"
+                    "2"
             );
 
             repository.saveAll(
