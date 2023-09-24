@@ -6,6 +6,7 @@ import com.example.demo.core.domain.service.interfaces.IProductRepository;
 import com.example.demo.exception.ProductDoesNotExistException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -35,11 +36,25 @@ public class ProductServiceTests {
     private final String DELETE_RESPONSE = "deleting product";
     @Test
     void createProductTest(){
-        Product ret = productService.createProduct(this.product);
+        Product productWithoutID = new Product(
+                null,
+                "Ring",
+                "Das ist ein Ring.",
+                "22",
+                "details",
+                "link"
+        );
+        Product ret = productService.createProduct(productWithoutID);
 
-        verify(productRepository).save(this.product);
 
-        assertEquals(this.product, ret);
+        ArgumentCaptor<Product> argumentCaptor = ArgumentCaptor.forClass(Product.class);
+        verify(productRepository).save(argumentCaptor.capture());
+
+        Product capturedProduct = argumentCaptor.getValue();
+
+
+        assertEquals(capturedProduct, ret);
+        assertEquals(capturedProduct.getId().getClass(), UUID.class);
     }
     @Test
     void updateProductExceptionTest(){
