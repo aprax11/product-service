@@ -30,11 +30,11 @@ public class RabbitConfiguration {
     private String directXchangeName;
     @Value("product-service.rpc.key")
     private String productServiceRoutingKey;
-    @Value("price-service.rpc.key")
+    @Value("basket-service.rpc.key")
     private String priceServiceRoutingKey;
     @Value("product-service.rpc.queue")
     private String productServiceQueueName;
-    @Value("price-service.rpc.queue")
+    @Value("basket-service.rpc.queue")
     private String priceServiceQueueName;
 
     @Bean
