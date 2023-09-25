@@ -1,10 +1,5 @@
 package com.example.demo.port.config;
 
-
-
-
-
-import com.example.demo.port.listener.Listener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -30,7 +25,7 @@ public class RabbitConfiguration {
     private String directXchangeName;
     @Value("product-service.rpc.key")
     private String productServiceRoutingKey;
-    @Value("basket-service.rpc.key")
+    @Value("basket-service.key")
     private String priceServiceRoutingKey;
     @Value("product-service.rpc.queue")
     private String productServiceQueueName;

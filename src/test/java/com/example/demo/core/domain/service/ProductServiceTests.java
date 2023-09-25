@@ -4,6 +4,7 @@ import com.example.demo.core.domain.model.Product;
 import com.example.demo.core.domain.service.impl.ProductService;
 import com.example.demo.core.domain.service.interfaces.IProductRepository;
 import com.example.demo.exception.ProductDoesNotExistException;
+import com.example.demo.port.producer.interfaces.IBasketServiceProducer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -23,6 +24,8 @@ import static org.mockito.Mockito.when;
 public class ProductServiceTests {
     @Mock
     private IProductRepository productRepository;
+    @Mock
+    private IBasketServiceProducer basketServiceProducer;
     @InjectMocks
     private ProductService productService;
     private final Product product = new Product(

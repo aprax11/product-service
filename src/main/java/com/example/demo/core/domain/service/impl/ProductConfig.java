@@ -2,6 +2,7 @@ package com.example.demo.core.domain.service.impl;
 
 import com.example.demo.core.domain.model.Product;
 import com.example.demo.core.domain.service.interfaces.IProductRepository;
+import com.example.demo.core.domain.service.interfaces.IProductService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @Configuration
 public class ProductConfig {
     @Bean
-    CommandLineRunner commandLineRunner(IProductRepository repository){
+    CommandLineRunner commandLineRunner(IProductService productService){
         return args -> {
             Product product1 = new Product(
                     UUID.randomUUID(),
@@ -31,9 +32,8 @@ public class ProductConfig {
                     "2"
             );
 
-            repository.saveAll(
-                    List.of(product1, product2)
-            );
+            productService.createProduct(product1);
+            productService.createProduct(product2);
         };
     }
 }
