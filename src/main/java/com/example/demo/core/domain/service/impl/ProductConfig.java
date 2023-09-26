@@ -19,7 +19,7 @@ public class ProductConfig {
                     UUID.randomUUID(),
                     "Ring",
                     "Das ist ein Ring.",
-                    "22",
+                    "22€",
                     "details",
                     "1"
             );
@@ -27,7 +27,7 @@ public class ProductConfig {
                     UUID.randomUUID(),
                     "Kette",
                     "Das ist eine Kette.",
-                    "220",
+                    "220€",
                     "details",
                     "2"
             );

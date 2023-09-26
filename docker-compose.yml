@@ -2,16 +2,15 @@ version: "3.9"
 
 services:
   database:
-    image: postgres:12
-    container_name: postgres
+    build:
+      context: .
+      dockerfile: PostgresDockerfile
+    image: my-custom-postgres
+    container_name: my-postgres-container
     ports:
       - "3306:3306"
     volumes:
-      - ./:/app/
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      - postgres-data:/var/lib/postgresql/data
     networks:
       - app-network
 
@@ -29,7 +28,7 @@ services:
     command: java -jar target/demo-0.0.1-SNAPSHOT.jar
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ProductServiceDockerfile
     ports:
       - "8085:8085"
     depends_on:
@@ -52,5 +51,6 @@ networks:
       name: app-network
     driver: bridge
 
-
+volumes:
+  postgres-data:
 

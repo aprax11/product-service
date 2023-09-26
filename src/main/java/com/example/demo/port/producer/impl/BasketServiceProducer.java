@@ -30,29 +30,20 @@ public class BasketServiceProducer implements IBasketServiceProducer {
     private String routingKey;
 
     @Override
-    public Product sendCreateProductRequest(Product product){
+    public void sendCreateProductRequest(Product product){
 
         byte[] serializedProduct = new Gson().toJson(product).getBytes();
 
         Message message = new Message(serializedProduct);
         setMessageType(message, CREATE_PRODUCT.name());
 
-        Message receivedMessage = rabbitTemplate.sendAndReceive(
+         rabbitTemplate.send(
                 directExchange.getName(),
                 routingKey,
                 message
         );
 
-        if (messageIsNull(receivedMessage)) {
-            logErrorFor("getting Product "+product.getName());
-            throw new ErrorResponseException("did not get product: "+product.getName());
-        }
 
-        String receivedObject = new String(receivedMessage.getBody(), StandardCharsets.UTF_8);
-        return new Gson().fromJson(
-                receivedObject,
-                Product.class
-        );
     }
     @Override
     public Product sendUpdateProductMessage(Product product){

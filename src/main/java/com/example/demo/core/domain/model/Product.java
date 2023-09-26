@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "product")
+@Table(name = "product", schema="product")
 public class Product {
     @Id
     @Column(unique = true, nullable = false)
