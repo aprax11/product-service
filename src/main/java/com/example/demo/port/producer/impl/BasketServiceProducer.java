@@ -32,12 +32,13 @@ public class BasketServiceProducer implements IBasketServiceProducer {
     @Override
     public void sendCreateProductRequest(Product product){
 
+        log.info("Sending product to Basket-queue: {}", product);
         byte[] serializedProduct = new Gson().toJson(product).getBytes();
 
         Message message = new Message(serializedProduct);
         setMessageType(message, CREATE_PRODUCT.name());
 
-         rabbitTemplate.send(
+         rabbitTemplate.sendAndReceive(
                 directExchange.getName(),
                 routingKey,
                 message
