@@ -81,7 +81,7 @@ public class BasketServiceProducerTest {
         basketServiceProducer.sendCreateProductRequest(testProduct);
 
         ArgumentCaptor<Message> argumentCaptor = ArgumentCaptor.forClass(Message.class);
-        verify(rabbitTemplate).send(anyString(), anyString(), argumentCaptor.capture());
+        verify(rabbitTemplate).sendAndReceive(anyString(), anyString(), argumentCaptor.capture());
 
         Message capturedArgument = argumentCaptor.getValue();
 
@@ -109,7 +109,7 @@ public class BasketServiceProducerTest {
         basketServiceProducer.sendUpdateProductMessage(testProduct);
 
         ArgumentCaptor<Message> argumentCaptor = ArgumentCaptor.forClass(Message.class);
-        verify(rabbitTemplate).send(anyString(), anyString(), argumentCaptor.capture());
+        verify(rabbitTemplate).sendAndReceive(anyString(), anyString(), argumentCaptor.capture());
 
         Message capturedArgument = argumentCaptor.getValue();
 
@@ -135,7 +135,7 @@ public class BasketServiceProducerTest {
         basketServiceProducer.sendDeleteProductMessage(TEST_ID);
 
         ArgumentCaptor<Message> argumentCaptor = ArgumentCaptor.forClass(Message.class);
-        verify(rabbitTemplate).send(anyString(), anyString(), argumentCaptor.capture());
+        verify(rabbitTemplate).sendAndReceive(anyString(), anyString(), argumentCaptor.capture());
 
         Message capturedArgument = argumentCaptor.getValue();
 

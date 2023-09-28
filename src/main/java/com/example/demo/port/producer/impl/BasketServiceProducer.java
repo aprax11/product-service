@@ -38,7 +38,7 @@ public class BasketServiceProducer implements IBasketServiceProducer {
         Message message = new Message(serializedProduct);
         setMessageType(message, CREATE_PRODUCT.name());
 
-         rabbitTemplate.send(
+         rabbitTemplate.sendAndReceive(
                 directExchange.getName(),
                 routingKey,
                 message
@@ -53,7 +53,7 @@ public class BasketServiceProducer implements IBasketServiceProducer {
 
         Message message = new Message(serializedProduct);
         setMessageType(message, UPDATE_PRODUCT.name());
-        rabbitTemplate.send(
+        rabbitTemplate.sendAndReceive(
                 directExchange.getName(),
                 routingKey,
                 message
@@ -64,7 +64,7 @@ public class BasketServiceProducer implements IBasketServiceProducer {
 
         Message message = new Message(id.getBytes());
         setMessageType(message, DELETE_PRODUCT.name());
-        rabbitTemplate.send(
+        rabbitTemplate.sendAndReceive(
                 directExchange.getName(),
                 routingKey,
                 message
