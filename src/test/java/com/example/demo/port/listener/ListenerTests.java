@@ -2,7 +2,6 @@ package com.example.demo.port.listener;
 
 import com.example.demo.core.domain.model.Product;
 import com.example.demo.core.domain.service.impl.ProductService;
-import com.example.demo.port.listener.Listener;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,7 @@ import org.springframework.amqp.core.MessageProperties;
 
 import java.util.UUID;
 
-import static com.example.demo.port.listener.MessageType.*;
+import static com.example.demo.port.MessageType.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 

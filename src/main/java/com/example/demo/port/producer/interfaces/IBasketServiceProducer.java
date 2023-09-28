@@ -5,7 +5,7 @@ import com.example.demo.core.domain.model.Product;
 public interface IBasketServiceProducer {
     void sendCreateProductRequest(Product product);
 
-    Product sendUpdateProductMessage(Product product);
+    void sendUpdateProductMessage(Product product);
 
-    String sendDeleteProductMessage(String id);
+    void sendDeleteProductMessage(String id);
 }

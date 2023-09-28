@@ -1,4 +1,4 @@
-package com.example.demo.port.listener;
+package com.example.demo.port;
 
 public enum MessageType {
     CREATE_PRODUCT,
