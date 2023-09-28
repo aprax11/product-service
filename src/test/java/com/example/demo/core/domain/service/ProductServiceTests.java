@@ -28,7 +28,7 @@ public class ProductServiceTests {
     private IBasketServiceProducer basketServiceProducer;
     @InjectMocks
     private ProductService productService;
-    private final Product product = new Product(
+    private final Product TEST_PRODUCT = new Product(
             UUID.randomUUID(),
             "Ring",
             "Das ist ein Ring.",
@@ -50,33 +50,40 @@ public class ProductServiceTests {
         Product ret = productService.createProduct(productWithoutID);
 
 
-        ArgumentCaptor<Product> argumentCaptor = ArgumentCaptor.forClass(Product.class);
-        verify(productRepository).save(argumentCaptor.capture());
+        ArgumentCaptor<Product> argumentCaptor1 = ArgumentCaptor.forClass(Product.class);
+        ArgumentCaptor<Product> argumentCaptor2 = ArgumentCaptor.forClass(Product.class);
 
-        Product capturedProduct = argumentCaptor.getValue();
+        verify(productRepository).save(argumentCaptor1.capture());
+        verify(basketServiceProducer).sendCreateProductRequest(argumentCaptor2.capture());
+
+        Product capturedProduct1 = argumentCaptor1.getValue();
+        Product capturedProduct2 = argumentCaptor2.getValue();
 
 
-        assertEquals(capturedProduct, ret);
-        assertEquals(capturedProduct.getId().getClass(), UUID.class);
+        assertEquals(capturedProduct1, ret);
+        assertEquals(capturedProduct1.getId().getClass(), UUID.class);
+        assertEquals(capturedProduct2, ret);
+        assertEquals(capturedProduct2.getId().getClass(), UUID.class);
     }
     @Test
     void updateProductExceptionTest(){
         try{
-            productService.updateProduct(this.product);
+            productService.updateProduct(this.TEST_PRODUCT);
             fail("Exception was not thrown");
         }catch (ProductDoesNotExistException e){
-            verify(productRepository).existsById(this.product.getId());
+            verify(productRepository).existsById(this.TEST_PRODUCT.getId());
         }
     }
     @Test
     void updateProductTest(){
         when(productRepository.existsById(any(UUID.class))).thenReturn(true);
         try{
-            Product ret = productService.updateProduct(this.product);
+            Product ret = productService.updateProduct(this.TEST_PRODUCT);
 
-            verify(productRepository).save(this.product);
+            verify(productRepository).save(this.TEST_PRODUCT);
+            verify(basketServiceProducer).sendUpdateProductMessage(this.TEST_PRODUCT);
 
-            assertEquals(this.product, ret);
+            assertEquals(this.TEST_PRODUCT, ret);
 
         }catch (ProductDoesNotExistException e){
             fail("Exception was thrown");
@@ -85,19 +92,20 @@ public class ProductServiceTests {
     @Test
     void deleteProductExceptionTest(){
         try{
-            productService.deleteProduct(this.product.getId());
+            productService.deleteProduct(this.TEST_PRODUCT.getId());
             fail("Exception was not thrown");
         }catch (ProductDoesNotExistException e){
-            verify(productRepository).existsById(this.product.getId());
+            verify(productRepository).existsById(this.TEST_PRODUCT.getId());
         }
     }
     @Test
     void deleteProductTest(){
         when(productRepository.existsById(any(UUID.class))).thenReturn(true);
         try{
-            String ret = productService.deleteProduct(this.product.getId());
+            String ret = productService.deleteProduct(this.TEST_PRODUCT.getId());
 
-            verify(productRepository).deleteById(this.product.getId());
+            verify(productRepository).deleteById(this.TEST_PRODUCT.getId());
+            verify(basketServiceProducer).sendDeleteProductMessage(this.TEST_PRODUCT.getId().toString());
 
             assertEquals(DELETE_RESPONSE, ret);
 

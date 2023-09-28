@@ -1,4 +1,4 @@
-package com.example.demo.listener;
+package com.example.demo.port.listener;
 
 import com.example.demo.core.domain.model.Product;
 import com.example.demo.core.domain.service.impl.ProductService;
