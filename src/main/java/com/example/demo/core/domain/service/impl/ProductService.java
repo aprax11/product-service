@@ -5,6 +5,7 @@ import com.example.demo.core.domain.service.Statics;
 import com.example.demo.core.domain.service.interfaces.IProductRepository;
 import com.example.demo.core.domain.service.interfaces.IProductService;
 import com.example.demo.exception.ProductDoesNotExistException;
+import com.example.demo.port.external.api.ExternalApi;
 import com.example.demo.port.producer.interfaces.IBasketServiceProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class ProductService implements IProductService {
     @Override
     public Product createProduct (Product product) {
 
-        product.setId(UUID.randomUUID());
+        product.setId(ExternalApi.getRandomUUID());
         productRepository.save(product);
         basketServiceProducer.sendCreateProductRequest(product);
         return product;
