@@ -18,22 +18,31 @@ public class ProductConfig {
             Product product1 = new Product(
                     UUID.randomUUID(),
                     "Ring",
-                    "Das ist ein Ring.",
-                    "22€",
+                    "This is a default ring.",
+                    "22",
                     "details",
-                    "1"
+                    "2"
             );
             Product product2 = new Product(
                     UUID.randomUUID(),
-                    "Kette",
-                    "Das ist eine Kette.",
-                    "220€",
+                    "Necklace",
+                    "This is a default necklace.",
+                    "220",
                     "details",
-                    "2"
+                    "1"
+            );
+            Product product3 = new Product(
+                    UUID.randomUUID(),
+                    "Earring",
+                    "This is a default erring.",
+                    "15",
+                    "details",
+                    "3"
             );
 
             productService.createProduct(product1);
             productService.createProduct(product2);
+            productService.createProduct(product3);
         };
     }
 }
