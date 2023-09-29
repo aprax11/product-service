@@ -8,6 +8,7 @@ import com.example.demo.exception.ProductDoesNotExistException;
 import com.example.demo.port.producer.interfaces.IBasketServiceProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -61,7 +62,7 @@ public class ProductService implements IProductService {
     private boolean existsProduct(UUID id) {
         return productRepository.existsById(id);
     }
-
+    @Cacheable(value = "ProductCache")
     @Override
     public Product getProduct(UUID id) {
 
