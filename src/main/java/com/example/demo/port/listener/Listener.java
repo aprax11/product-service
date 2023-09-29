@@ -2,6 +2,7 @@ package com.example.demo.port.listener;
 
 import com.example.demo.core.domain.model.Product;
 import com.example.demo.core.domain.service.interfaces.IProductService;
+import com.example.demo.port.MessageType;
 import lombok.Data;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

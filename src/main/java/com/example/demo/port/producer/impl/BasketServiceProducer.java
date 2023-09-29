@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 
-import static com.example.demo.port.listener.MessageType.*;
+import static com.example.demo.port.MessageType.*;
 
 @Slf4j
 @Service
@@ -30,69 +30,45 @@ public class BasketServiceProducer implements IBasketServiceProducer {
     private String routingKey;
 
     @Override
-    public Product sendCreateProductRequest(Product product){
+    public void sendCreateProductRequest(Product product){
 
+        log.info("Sending product to Basket-queue: {}", product);
         byte[] serializedProduct = new Gson().toJson(product).getBytes();
 
         Message message = new Message(serializedProduct);
         setMessageType(message, CREATE_PRODUCT.name());
 
-        Message receivedMessage = rabbitTemplate.sendAndReceive(
+         rabbitTemplate.sendAndReceive(
                 directExchange.getName(),
                 routingKey,
                 message
         );
 
-        if (messageIsNull(receivedMessage)) {
-            logErrorFor("getting Product "+product.getName());
-            throw new ErrorResponseException("did not get product: "+product.getName());
-        }
 
-        String receivedObject = new String(receivedMessage.getBody(), StandardCharsets.UTF_8);
-        return new Gson().fromJson(
-                receivedObject,
-                Product.class
-        );
     }
     @Override
-    public Product sendUpdateProductMessage(Product product){
+    public void sendUpdateProductMessage(Product product){
 
         byte[] serializedProduct = new Gson().toJson(product).getBytes();
 
         Message message = new Message(serializedProduct);
         setMessageType(message, UPDATE_PRODUCT.name());
-        Message receivedMessage = rabbitTemplate.sendAndReceive(
+        rabbitTemplate.sendAndReceive(
                 directExchange.getName(),
                 routingKey,
                 message
-        );
-        if (messageIsNull(receivedMessage)) {
-            logErrorFor("updating Product "+product.getName());
-            throw new ErrorResponseException("did not update product: "+product.getName());
-        }
-
-        String receivedObject = new String(receivedMessage.getBody(), StandardCharsets.UTF_8);
-        return new Gson().fromJson(
-                receivedObject,
-                Product.class
         );
     }
     @Override
-    public String sendDeleteProductMessage(String id){
+    public void sendDeleteProductMessage(String id){
 
         Message message = new Message(id.getBytes());
         setMessageType(message, DELETE_PRODUCT.name());
-        Message receivedMessage = rabbitTemplate.sendAndReceive(
+        rabbitTemplate.sendAndReceive(
                 directExchange.getName(),
                 routingKey,
                 message
         );
-        if (messageIsNull(receivedMessage)) {
-            logErrorFor("deleting Product "+id);
-            throw new ErrorResponseException("did not delete product: "+id);
-        }
-
-        return new String(receivedMessage.getBody(), StandardCharsets.UTF_8);
     }
     private void setMessageType(Message message, String type) {
         message.getMessageProperties()
